@@ -1,5 +1,6 @@
-<polymer-element name="the-graph" attributes="graph menus library width height autolayout theme selectedNodes errorNodes selectedEdges animatedEdges getMenuDef pan scale displaySelectionGroup forceSelection offsetY offsetX" touch-action="none">
+<link rel="import" href="../../polymer/polymer.html">
 
+<polymer-element name="the-graph" attributes="graph menus library width height autolayout theme selectedNodes errorNodes selectedEdges animatedEdges getMenuDef pan scale displaySelectionGroup forceSelection offsetY offsetX" touch-action="none">
 
   <template>
     <link rel="stylesheet" href="../themes/the-graph-dark.css">
@@ -58,7 +59,7 @@
         // Initializes the autolayouter
         this.autolayouter = klayNoflo.init({
           onSuccess: this.applyAutolayout.bind(this),
-          workerScript: "../bower_components/klayjs/klay.js"
+          workerScript: "packages/the_graph/src/klayjs/klay.js"
         });
       },
       ready: function () {

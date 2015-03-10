@@ -1,3 +1,9 @@
+# Fork of The-Graph-Editor
+Using in Dart polymer wrapper.
+Just inserted polymer links and fixed klayjs url.
+
+Next is original readme.
+
 The Graph Editor [![Build Status](https://secure.travis-ci.org/the-grid/the-graph.png?branch=master)](http://travis-ci.org/the-grid/the-graph) [![MIT license](http://img.shields.io/badge/License-MIT-brightgreen.svg)](#license)
 ================
 

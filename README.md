@@ -1,6 +1,8 @@
 # Fork of The-Graph-Editor
 Using in Dart polymer wrapper.
-Just inserted polymer links and fixed klayjs url.
+Changes: 
+- inserted polymer links and fixed klayjs url,
+- included builded `build/noflo.js`.
 
 Next is original readme.
 

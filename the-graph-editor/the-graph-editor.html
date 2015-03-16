@@ -413,6 +413,16 @@
       },
       toJSON: function () {
         return this.nofloGraph.toJSON();
+      },
+      addNode: function (id, nodeType, metadata) {
+        try {
+          this.$.graph.addNode(id, nodeType, metadata);
+        } catch (e) {
+          console.log(e);
+        }
+      },
+      setLibrary: function (value) {
+        this.$.graph.library = value;
       }
     });
 

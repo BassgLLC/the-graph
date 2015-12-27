@@ -414,6 +414,12 @@
       toJSON: function () {
         return this.nofloGraph.toJSON();
       },
+      getTheGraphProperty: function (key) {
+        return this.$.graph[key];
+      },
+      setTheGraphProperty: function (key, value) {
+        return this.$.graph[key] = value;
+      },
       addNode: function (id, nodeType, metadata) {
         try {
           this.$.graph.addNode(id, nodeType, metadata);

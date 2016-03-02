@@ -429,6 +429,15 @@
       },
       setLibrary: function (value) {
         this.$.graph.library = value;
+      },
+      copySelected: function() {
+        var itemIds = this.selectedNodes.map(function (item) { return item.id});
+        TheGraph.Clipboard.copy(this.nofloGraph, itemIds);
+      },
+      pasteSelected: function() {
+        var pasted = TheGraph.Clipboard.paste(this.nofloGraph);
+        this.selectedNodes = pasted.nodes;
+        this.selectedEdges = [];
       }
     });
 

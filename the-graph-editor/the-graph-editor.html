@@ -435,6 +435,7 @@
         TheGraph.Clipboard.copy(this.nofloGraph, itemIds);
       },
       pasteSelected: function() {
+        if (TheGraph.Clipboard.isEmpty()) return;
         var pasted = TheGraph.Clipboard.paste(this.nofloGraph);
         this.selectedNodes = pasted.nodes;
         this.selectedEdges = [];

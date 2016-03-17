@@ -7,7 +7,7 @@
   var TheGraph = context.TheGraph;
 
   TheGraph.Clipboard = {};
-  var clipboardContent = {};
+  var clipboardContent = {nodes:[], edges:[]};
 
   var cloneObject = function (obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -18,6 +18,10 @@
     num = Math.floor(Math.random() * num);
     var id = label + '_' + num.toString(36);
     return id;
+  };
+
+  TheGraph.Clipboard.isEmpty = function () {
+    return clipboardContent.nodes.length == 0 && clipboardContent.edges.length == 0;
   };
 
   TheGraph.Clipboard.copy = function (graph, keys) {

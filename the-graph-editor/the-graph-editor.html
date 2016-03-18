@@ -439,6 +439,16 @@
         var pasted = TheGraph.Clipboard.paste(this.nofloGraph);
         this.selectedNodes = pasted.nodes;
         this.selectedEdges = [];
+      },
+      deleteSelected: function() {
+        if (this.selectedNodes.length == 0) return;
+
+        // Remove selection
+        for (var i=0, len=this.selectedNodes.length; i<len; i++){
+          this.nofloGraph.removeNode(this.selectedNodes[i].id);
+        }
+
+        this.selectedNodes = [];
       }
     });
 

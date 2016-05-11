@@ -9129,6 +9129,33 @@ module.exports = function(arr, obj){
       return this.addInitialIndex(data, inport.process, inport.port, index, metadata);
     };
 
+    /// Updates value for all initials with [node] and [port].
+    Graph.prototype.updateInitial = function(data, node, port) {
+      var initializer;
+      if (!this.getNode(node)) {
+        return;
+      }
+      this.checkTransactionStart();
+
+      var updated = [];
+      var _ref = this.initializers;
+      var _len = _ref.length;
+      var edge;
+      for (var _i = 0; _i < _len; _i++) {
+        edge = _ref[_i];
+        if (edge.to.node === node && edge.to.port === port) {
+          edge.from.data = data;
+          updated.push(edge);
+        }
+      }
+
+      for (_i = 0; _i < updated.length; _i++) {
+        this.emit('updateInitial', updated[_i]);
+      }
+      this.checkTransactionEnd();
+      return initializer;
+    };
+
     Graph.prototype.removeInitial = function(node, port) {
       var edge, index, toKeep, toRemove, _i, _j, _len, _len1, _ref;
       this.checkTransactionStart();

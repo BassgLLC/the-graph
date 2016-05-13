@@ -52,6 +52,9 @@
       forceSelection: false,
       offsetY: null,
       offsetX: null,
+      // This flag for graphChanged method. False value
+      // means scale and pan wil not be changed.
+      autofit: true,
       created: function () {
         this.library = {};
         // Default pan
@@ -109,11 +112,15 @@
             displaySelectionGroup: this.displaySelectionGroup,
             forceSelection: this.forceSelection,
             offsetY: this.offsetY,
-            offsetX: this.offsetX
+            offsetX: this.offsetX,
+            autofit: this.autofit,
+            pan: this.pan,
+            scale: this.scale
           }),
           this.$.svgcontainer
         );
         this.graphView = this.appView.refs.graph;
+        this.autofit = true;
       },
       onPanScale: function (x, y, scale) {
         this.pan[0] = x;
@@ -321,6 +328,10 @@
       addNode: function (id, component, metadata) {
         if (!this.graph) { return; }
         this.graph.addNode(id, component, metadata);
+      },
+      updateGraph: function(newGraph) {
+        this.autofit = false;
+        this.graph = newGraph;
       },
       getPan: function () {
         if (!this.appView) { 

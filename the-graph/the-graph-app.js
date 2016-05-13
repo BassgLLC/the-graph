@@ -68,13 +68,24 @@
     mixins: [React.Animate],
     minZoom: 0.15,
     getInitialState: function() {
+      var _x, _y, _scale;
       // Autofit
-      var fit = TheGraph.findFit(this.props.graph, this.props.width, this.props.height);
+      if (this.props.autofit == true) {
+        var fit = TheGraph.findFit(this.props.graph, this.props.width, this.props.height);
+        _x = fit.x;
+        _y = fit.y;
+        _scale = fit.scale;
+      } 
+      else {
+        _x = this.props.pan[0];
+        _y = this.props.pan[1];
+        _scale = this.props.scale;
+      }
 
       return {
-        x: fit.x,
-        y: fit.y,
-        scale: fit.scale,
+        x: _x,
+        y: _y,
+        scale: _scale,
         width: this.props.width,
         height: this.props.height,
         tooltip: "",

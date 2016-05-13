@@ -415,10 +415,10 @@
         return this.nofloGraph.toJSON();
       },
       getTheGraphProperty: function (key) {
-        return this.$.graph[key];
+        return this[key];
       },
       setTheGraphProperty: function (key, value) {
-        return this.$.graph[key] = value;
+        return this[key]=value;
       },
       addNode: function (id, nodeType, metadata) {
         try {
@@ -452,6 +452,16 @@
       },
       deleteNode: function(id) {
         this.nofloGraph.removeNode(id);
+      },
+      updateGraph: function(graph) {
+        console.log("updateGraph");
+        // We don't update this.graph with new value to avoid
+        // [graphChanged] handler. Be aware [this.graph] is becoming
+        // outdated. But it's ok since [this.graph] is used in
+        // [graphChanged] only and nobody read it outside.
+        noflo.graph.loadJSON(graph, function(nofloGraph) {
+          this.$.graph.updateGraph(nofloGraph);
+        }.bind(this));
       }
     });
 

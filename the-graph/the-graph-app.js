@@ -111,8 +111,9 @@
 
       // Safari is wheelDeltaY
       this.zoomFactor += event.deltaY ? event.deltaY : 0-event.wheelDeltaY;
-      this.zoomX = event.clientX;
-      this.zoomY = event.clientY;
+      var offset = TheGraph.getOffsetUpToElement(event.currentTarget, event.target);
+      this.zoomX = (event.layerX || event.clientX || 0) - offset.left;
+      this.zoomY = (event.layerY || event.clientY || 0) - offset.top;
       requestAnimationFrame(this.scheduleWheelZoom);
     },
     scheduleWheelZoom: function () {

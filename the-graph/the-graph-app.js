@@ -114,6 +114,10 @@
       var offset = TheGraph.getOffsetUpToElement(event.currentTarget, event.target);
       this.zoomX = (event.layerX || event.clientX || 0) - offset.left;
       this.zoomY = (event.layerY || event.clientY || 0) - offset.top;
+
+      this.zoomX -= (event.currentTarget.clientWidth/2 - this.zoomX) * 0.15;
+      this.zoomY -= (event.currentTarget.clientHeight/2 - this.zoomY) * 0.15;
+
       requestAnimationFrame(this.scheduleWheelZoom);
     },
     scheduleWheelZoom: function () {

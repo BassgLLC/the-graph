@@ -47,11 +47,16 @@
     showTooltip: function (event) {
       if ( !this.shouldShowTooltip() ) { return; }
 
+      // Get mouse position
+      var offset = TheGraph.getOffsetUpToElement(event.currentTarget, event.target);
+      var x = (event.layerX || event.clientX || 0) - offset.left;
+      var y = (event.layerY || event.clientY || 0) - offset.top;
+
       var tooltipEvent = new CustomEvent('the-graph-tooltip', { 
         detail: {
           tooltip: this.props.label,
-          x: event.clientX,
-          y: event.clientY
+          "x": x,
+          "y": y
         }, 
         bubbles: true
       });
@@ -427,6 +432,19 @@
     }catch(e){
       return getElementOffset();
     }
+  };
+
+  TheGraph.getOffsetUpToElement = function(initialElement, upperElement) {
+    var offset = {top: 0, left: 0};
+
+    var offsetParent = initialElement;
+    while (offsetParent != null && offsetParent != upperElement) {
+      offset.left += offsetParent.offsetLeft || 0;
+      offset.top  += offsetParent.offsetTop || 0;
+      offsetParent = offsetParent.parentElement;
+    }
+
+    return offset;
   };
 
 })(this);

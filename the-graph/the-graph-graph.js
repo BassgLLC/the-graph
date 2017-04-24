@@ -23,6 +23,9 @@
     outportsGroup: {
       className: "ex-outports"
     },
+    notesGroup: {
+      className: "ex-groups"
+    },
     node: {},
     iip: {},
     inportEdge: {},
@@ -39,7 +42,8 @@
     edgePreview: {
       key: "edge-preview",
       label: ""
-    }
+    },
+    note: {}
   };
 
   TheGraph.factories.graph = {
@@ -50,11 +54,13 @@
     createGraphNodesGroup: TheGraph.factories.createGroup,
     createGraphInportsGroup: TheGraph.factories.createGroup,
     createGraphOutportsGroup: TheGraph.factories.createGroup,
+    createGraphNotesGroup: TheGraph.factories.createGroup,
     createGraphNode: createGraphNode,
     createGraphEdge: createGraphEdge,
     createGraphIIP: createGraphIIP,
     createGraphGroup: createGraphGroup,
-    createGraphEdgePreview: createGraphEdgePreview
+    createGraphEdgePreview: createGraphEdgePreview,
+    createGraphNote: createGraphNote
   };
 
   function createGraphNode(options) {
@@ -75,6 +81,10 @@
 
   function createGraphEdgePreview(options) {
     return TheGraph.Edge(options);
+  }
+
+  function createGraphNote(options) {
+    return TheGraph.Note(options);
   }
 
 
@@ -111,6 +121,9 @@
       this.props.graph.on("changeInport", this.markDirty);
       this.props.graph.on("changeOutport", this.markDirty);
       this.props.graph.on("endTransaction", this.markDirty);
+      this.props.graph.on("addNote", this.markDirty);
+      this.props.graph.on("removeNote", this.markDirty);
+      this.props.graph.on("changeNote", this.markDirty);
 
       this.getDOMNode().addEventListener("the-graph-node-remove", this.removeNode);
     },
@@ -803,6 +816,28 @@
         edges.push(edgePreviewView);
       }
 
+
+      // Notes
+      var notes = graph.notes.map(function (note) {
+        var noteOptions = {
+          graph: graph,
+          note: note,
+          app: self.props.app,
+          x: note.metadata.x || 0,
+          y: note.metadata.y || 0,
+          width: note.metadata.width || 1,
+          height: note.metadata.height || 1,
+          scale: self.props.scale,
+          text: note.text,
+          color: note.metadata.color || 0,
+          triggerMoveGroup: self.moveGroup,
+          showContext: self.props.showContext
+        };
+        noteOptions = TheGraph.merge(TheGraph.config.graph.note, noteOptions);
+        return TheGraph.factories.graph.createGraphNote.call(this, noteOptions);
+      });
+
+
       var groupsOptions = TheGraph.merge(TheGraph.config.graph.groupsGroup, { children: groups });
       var groupsGroup = TheGraph.factories.graph.createGraphGroupsGroup.call(this, groupsOptions);
 
@@ -821,13 +856,17 @@
       var outportsOptions = TheGraph.merge(TheGraph.config.graph.outportsGroup, { children: outports });
       var outportsGroup = TheGraph.factories.graph.createGraphGroupsGroup.call(this, outportsOptions);
 
+      var notesOptions = TheGraph.merge(TheGraph.config.graph.notesGroup, { children: notes });
+      var notesGroup = TheGraph.factories.graph.createGraphNotesGroup.call(this, notesOptions);
+
       var containerContents = [
         groupsGroup,
         edgesGroup,
         iipsGroup,
         nodesGroup,
         inportsGroup,
-        outportsGroup
+        outportsGroup,
+        notesGroup
       ];
 
       var selectedClass = (this.state.forceSelection ||

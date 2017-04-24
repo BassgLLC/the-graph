@@ -196,6 +196,22 @@
               }
             },
             e4: pasteMenu
+          },
+          note: {
+            s4: {
+              icon: "trash-o",
+              iconLabel: "delete",
+              action: function (graph, itemKey, item) {
+                graph.removeNote(item);
+              }
+            },
+            w4: {
+              icon: "copy",
+              iconLabel: "copy",
+              action: function (graph, itemKey, item) {
+                //todo TheGraph.Clipboard.copy(graph, [itemKey]);
+              }
+            }
           }
         };
       },
@@ -265,7 +281,7 @@
           return;
         }
 
-        noflo.graph.loadJSON(this.graph, function(nofloGraph){
+        noflo.graph.loadJSON(this.graph, function(nofloGraph) {
           this.buildInitialLibrary(nofloGraph);
           this.nofloGraph = nofloGraph;
         }.bind(this));
@@ -453,11 +469,17 @@
       deleteNode: function(id) {
         this.nofloGraph.removeNode(id);
       },
+      addNote: function(text, metadata) {
+        this.nofloGraph.addNote(text, metadata);
+      },
       updateGraph: function(graph) {
         // We don't update this.graph with new value to avoid
         // [graphChanged] handler. Be aware [this.graph] is becoming
         // outdated. But it's ok since [this.graph] is used in
         // [graphChanged] only and nobody read it outside.
+
+        //fixme why duplicating? we should reuse graphChange method.
+        //We did it that way to avoid recalling buildInitialLibrary method
         noflo.graph.loadJSON(graph, function(nofloGraph) {
           this.$.graph.updateGraph(nofloGraph);
         }.bind(this));

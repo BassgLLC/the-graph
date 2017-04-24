@@ -21,6 +21,7 @@
   <script type="text/javascript" src="./the-graph-iip.js"></script>
   <script type="text/javascript" src="./the-graph-group.js"></script>
   <script type="text/javascript" src="./the-graph-tooltip.js"></script>
+  <script type="text/javascript" src="./the-graph-note.js"></script>
   <script type="text/javascript" src="./the-graph-menu.js"></script>
   <script type="text/javascript" src="./the-graph-clipboard.js"></script>
 
@@ -88,6 +89,8 @@
           this.graph.on('removeOutport', this.triggerAutolayout.bind(this));
           this.graph.on('addEdge', this.triggerAutolayout.bind(this));
           this.graph.on('removeEdge', this.triggerAutolayout.bind(this));
+          this.graph.on('addNote', this.triggerAutolayout.bind(this));
+          this.graph.on('removeNote', this.triggerAutolayout.bind(this));
         }
 
         if (this.appView) {
@@ -207,6 +210,8 @@
           this.graph.on('removeOutport', this.triggerAutolayout.bind(this));
           this.graph.on('addEdge', this.triggerAutolayout.bind(this));
           this.graph.on('removeEdge', this.triggerAutolayout.bind(this));
+          this.graph.on('addNote', this.triggerAutolayout.bind(this));
+          this.graph.on('removeNote', this.triggerAutolayout.bind(this));
         } else {
           this.graph.removeListener('addNode', this.triggerAutolayout);
           this.graph.removeListener('removeNode', this.triggerAutolayout);
@@ -216,6 +221,8 @@
           this.graph.removeListener('removeOutport', this.triggerAutolayout);
           this.graph.removeListener('addEdge', this.triggerAutolayout);
           this.graph.removeListener('removeEdge', this.triggerAutolayout);
+          this.graph.removeListener('addNote', this.triggerAutolayout);
+          this.graph.removeListener('removeNote', this.triggerAutolayout);
         }
       },
       triggerAutolayout: function (event) {

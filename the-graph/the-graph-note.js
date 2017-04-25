@@ -210,8 +210,7 @@
       });
     },
     render: function () {
-
-      var rectOptions = TheGraph.merge(TheGraph.config.note.rect, {width: this.props.text.length * 6});
+      var rectOptions = TheGraph.merge(TheGraph.config.note.rect, {width: this.props.text.length * 12});
       var rect = TheGraph.factories.note.createNoteRect.call(this, rectOptions);
 
       var textOptions = TheGraph.merge(TheGraph.config.note.text, { children: this.props.text });

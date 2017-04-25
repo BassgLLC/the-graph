@@ -24,7 +24,7 @@
       className: "ex-outports"
     },
     notesGroup: {
-      className: "ex-groups"
+      className: "notes"
     },
     node: {},
     iip: {},

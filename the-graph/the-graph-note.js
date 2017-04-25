@@ -11,20 +11,43 @@
 
   NoFlo.Graph.prototype.toJSON = function () {
     var res = _toJSON.call(this);
-    res.notes = this.notes || [];
+
+    var notesDict = {};
+    var notesList = this.notes;
+    var note;
+    for (var i=0, len = notesList.length; i < len; i++) {
+      note = notesList[i];
+      notesDict[note.id] = {
+        text: note.text,
+        metadata: note.metadata || {}
+      }
+    }
+
+    res.notes = notesDict;
     return res;
   };
 
   NoFlo.graph.loadJSON = function (definition, success, metadata) {
     _loadJSON.call(this, definition, function (nofloGraph) {
-      nofloGraph.notes = definition.notes || [];
+      var srcNotes = definition.notes;
+      var notesList = [];
+      for (var id in srcNotes) {
+        var note = srcNotes[id];
+        note.id = id;
+        if (!note.metadata) {
+          note.metadata = {};
+        }
+        notesList.push(note);
+      }
+
+      nofloGraph.notes = notesList;
       success(nofloGraph);
     }, metadata);
   };
 
-  NoFlo.Graph.prototype.addNote = function (text, metadata) {
+  NoFlo.Graph.prototype.addNote = function (id, text, metadata) {
     var note;
-    note = {text: text, metadata: metadata || {}};
+    note = {id: id, text: text, metadata: metadata || {}};
     if (!note.metadata.hasOwnProperty("x")) note.metadata.x = 0;
     if (!note.metadata.hasOwnProperty("y")) note.metadata.y = 0;
     this.checkTransactionStart();
@@ -34,20 +57,21 @@
     return note;
   };
 
-  NoFlo.Graph.prototype.removeNote = function (note) {
-    var i = this.notes.indexOf(note);
+  NoFlo.Graph.prototype.removeNote = function (noteID) {
+    var i = this.notes.findIndex(function (n) {return n.id == noteID});
     if (i >= 0) {
       this.checkTransactionStart();
       this.notes.splice(i, 1);
-      this.emit('removeNote', note);
+      this.emit('removeNote', noteID);
       this.checkTransactionEnd();
     }
   };
 
-  NoFlo.Graph.prototype.setNoteMetadata = function (note, metadata) {
+  NoFlo.Graph.prototype.setNoteMetadata = function (noteID, metadata) {
     this.checkTransactionStart();
+    var note = this.notes.find(function (n) {return n.id == noteID});
     note.metadata = TheGraph.merge(metadata, note.metadata, true);
-    this.emit('changeNote', note);
+    this.emit('changeNote', noteID);
     this.checkTransactionEnd();
   };
 
@@ -129,7 +153,7 @@
       var deltaY = Math.round( event.ddy / scale );
 
       // Fires a change event on noflo graph, which triggers redraw
-      this.props.graph.setNoteMetadata(this.props.note, {
+      this.props.graph.setNoteMetadata(this.props.noteID, {
         x: this.props.note.metadata.x + deltaX,
         y: this.props.note.metadata.y + deltaY
       });
@@ -144,7 +168,7 @@
 
       // Snap to grid
       var snap = TheGraph.config.note.snap / 2;
-      this.props.graph.setNoteMetadata(this.props.note, {
+      this.props.graph.setNoteMetadata(this.props.noteID, {
         x: Math.round(this.props.note.metadata.x/snap) * snap,
         y: Math.round(this.props.note.metadata.y/snap) * snap
       });

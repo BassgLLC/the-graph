@@ -202,7 +202,7 @@
               icon: "trash-o",
               iconLabel: "delete",
               action: function (graph, itemKey, item) {
-                graph.removeNote(item);
+                graph.removeNote(itemKey);
               }
             },
             w4: {
@@ -469,8 +469,8 @@
       deleteNode: function(id) {
         this.nofloGraph.removeNode(id);
       },
-      addNote: function(text, metadata) {
-        this.nofloGraph.addNote(text, metadata);
+      addNote: function(id, text, metadata) {
+        this.nofloGraph.addNote(id, text, metadata);
       },
       updateGraph: function(graph) {
         // We don't update this.graph with new value to avoid

@@ -822,6 +822,7 @@
         var noteOptions = {
           graph: graph,
           note: note,
+          noteID: note.id,
           app: self.props.app,
           x: note.metadata.x || 0,
           y: note.metadata.y || 0,

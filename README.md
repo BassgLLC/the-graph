@@ -2,7 +2,9 @@
 Using in Dart polymer wrapper.
 Changes: 
 - inserted polymer links and fixed klayjs url,
-- included builded `build/noflo.js`.
+- included builded `build/noflo.js`,
+- added notes,
+- fixed mouse x,y offsets.
 
 Next is original readme.
 

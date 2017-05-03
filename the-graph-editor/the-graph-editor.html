@@ -472,6 +472,9 @@
       addNote: function(id, text, metadata) {
         this.nofloGraph.addNote(id, text, metadata);
       },
+      setNoteText: function(id, text) {
+        this.nofloGraph.setNoteText(id, text);
+      },
       updateGraph: function(graph) {
         // We don't update this.graph with new value to avoid
         // [graphChanged] handler. Be aware [this.graph] is becoming

@@ -1,0 +1,4 @@
+.the-graph-dark  .selection .note:not(.selected),
+.the-graph-light .selection .note:not(.selected) {
+    opacity: .5;
+}

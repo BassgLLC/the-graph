@@ -361,6 +361,12 @@
       });
       this.markDirty();
     },
+    setSelectedNote: function(note) {
+      this.setState({
+        selectedNote: note
+      });
+      this.markDirty();
+    },
     setErrorNodes: function (errors) {
       this.setState({
         errorNodes: errors
@@ -413,6 +419,7 @@
       var graph = this.state.graph;
       var library = this.props.library;
       var selectedIds = [];
+      var isNoteSelected = self.state.selectedNote != null;
 
       // Reset ports if library has changed
       if (this.libraryDirty) {
@@ -830,6 +837,8 @@
           height: note.metadata.height || 1,
           scale: self.props.scale,
           text: note.text,
+          onNoteSelection: self.props.onNoteSelection,
+          selected: note === self.state.selectedNote,
           color: note.metadata.color || 0,
           triggerMoveGroup: self.moveGroup,
           showContext: self.props.showContext
@@ -871,7 +880,7 @@
       ];
 
       var selectedClass = (this.state.forceSelection ||
-                           selectedIds.length>0) ? ' selection' : '';
+                           selectedIds.length>0 || isNoteSelected) ? ' selection' : '';
 
       var containerOptions = TheGraph.merge(TheGraph.config.graph.container, { className: 'graph' + selectedClass });
       return TheGraph.factories.graph.createGraphContainerGroup.call(this, containerOptions, containerContents);

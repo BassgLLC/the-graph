@@ -5,6 +5,7 @@
   <template>
     <link rel="stylesheet" href="../themes/the-graph-dark.css">
     <link rel="stylesheet" href="../themes/the-graph-light.css">
+    <link rel="stylesheet" href="../themes/the-graph-note.css">
     <div id="svgcontainer"></div>
   </template>
 
@@ -48,6 +49,7 @@
       errorNodes: {},
       selectedEdges: [],
       animatedEdges: [],
+      selectedNote: null,
       autolayouter: null,
       displaySelectionGroup: true,
       forceSelection: false,
@@ -110,6 +112,7 @@
             editable: this.editable,
             onEdgeSelection: this.onEdgeSelection.bind(this),
             onNodeSelection: this.onNodeSelection.bind(this),
+            onNoteSelection: this.onNoteSelection.bind(this),
             onPanScale: this.onPanScale.bind(this),
             getMenuDef: this.getMenuDef,
             displaySelectionGroup: this.displaySelectionGroup,
@@ -131,6 +134,7 @@
         this.scale = scale;
       },
       onEdgeSelection: function (itemKey, item, toggle) {
+        this.onNoteSelection(null);
         if (itemKey === undefined) {
           if (this.selectedEdges.length>0) {
             this.selectedEdges = [];
@@ -155,6 +159,7 @@
         this.fire('edges', this.selectedEdges);
       },
       onNodeSelection: function (itemKey, item, toggle) {
+        this.onNoteSelection(null);
         if (itemKey === undefined) {
           this.selectedNodes = [];
         } else if (toggle) {
@@ -168,7 +173,22 @@
         } else {
           this.selectedNodes = [item];
         }
-        this.fire('nodes', this.selectedNodes);
+      },
+      onNoteSelection: function (itemKey, item) {
+        if (itemKey !== null && itemKey !== undefined) {
+          this.selectedNodes.splice(0, this.selectedNodes.length);
+          this.selectedEdges.splice(0, this.selectedEdges.length);
+          this.selectedNote = item;
+        } else if (this.selectedNote !== null) {
+          this.selectedNote = null;
+        } else {
+          return; // Don't fire null event again.
+        }
+        this.fire('note', this.selectedNote);
+      },
+      selectedNoteChanged: function() {
+        if (!this.graphView) { return; }
+        this.graphView.setSelectedNote(this.selectedNote);
       },
       selectedNodesChanged: function () {
         var selectedNodesHash = {};

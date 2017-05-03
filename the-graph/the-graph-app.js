@@ -426,6 +426,7 @@
     unselectAll: function (event) {
       // No arguments = clear selection
       this.props.onNodeSelection();
+      this.props.onNoteSelection();
       this.props.onEdgeSelection();
     },
     renderGraph: function () {
@@ -535,6 +536,7 @@
         app: this,
         library: this.props.library,
         onNodeSelection: this.props.onNodeSelection,
+        onNoteSelection: this.props.onNoteSelection,
         onEdgeSelection: this.props.onEdgeSelection,
         showContext: this.showContext
       };

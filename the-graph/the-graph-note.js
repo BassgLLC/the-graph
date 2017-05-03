@@ -75,6 +75,14 @@
     this.checkTransactionEnd();
   };
 
+  NoFlo.Graph.prototype.setNoteText = function (noteID, text) {
+    this.checkTransactionStart();
+    var note = this.notes.find(function (n) {return n.id == noteID});
+    note.text = text;
+    this.emit('changeNote', noteID);
+    this.checkTransactionEnd();
+  };
+
 
   TheGraph.config.note = {
     container: {
@@ -112,7 +120,7 @@
       domNode.addEventListener("trackstart", this.onTrackStart);
 
       // Tap to select
-      if (this.props.onNodeSelection) {
+      if (this.props.onNoteSelection) {
         domNode.addEventListener("tap", this.onNoteSelection, true);
       }
 
@@ -123,7 +131,11 @@
       }
     },
     onNoteSelection: function () {
+      // Don't tap app (unselect)
+      event.stopPropagation();
 
+      // var toggle = (TheGraph.metaKeyPressed || event.pointerType==="touch");
+      this.props.onNoteSelection(this.props.noteID, this.props.note);
     },
     onTrackStart: function () {
       // Don't drag graph
@@ -219,7 +231,7 @@
       var containerContents = [rect, text];
 
       var containerOptions = {
-        className: "tooltip",
+        className: "tooltip note" + (this.props.selected ? " node selected" : ""),
         transform: "translate("+this.props.x+","+this.props.y+")"
       };
       containerOptions = TheGraph.merge(TheGraph.config.note.container, containerOptions);

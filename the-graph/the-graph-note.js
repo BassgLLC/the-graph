@@ -231,7 +231,7 @@
       var containerContents = [rect, text];
 
       var containerOptions = {
-        className: "tooltip note" + (this.props.selected ? " selected" : ""),
+        className: "tooltip note" + (this.props.selected ? " selected" : " "),
         transform: "translate("+this.props.x+","+this.props.y+")"
       };
       containerOptions = TheGraph.merge(TheGraph.config.note.container, containerOptions);

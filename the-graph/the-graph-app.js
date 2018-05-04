@@ -540,6 +540,7 @@
         onEdgeSelection: this.props.onEdgeSelection,
         showContext: this.showContext
       };
+
       graphElementOptions = TheGraph.merge(TheGraph.config.app.graph, graphElementOptions);
       var graphElement = TheGraph.factories.app.createAppGraph.call(this, graphElementOptions);
 

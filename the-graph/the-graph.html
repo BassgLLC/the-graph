@@ -471,6 +471,7 @@
           def = this.mergeComponentDefinition(component, definition);
         }
         this.library[definition.name] = def;
+        this.graphView.registerComponent(def);
         // So changes are rendered
         this.debounceLibraryRefesh();
       },

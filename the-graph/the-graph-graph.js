@@ -398,6 +398,9 @@
       }
       window.requestAnimationFrame(this.triggerRender);
     },
+    registerComponent: function(def) {
+      this.props.library[def['name']] = def;
+    },
     triggerRender: function (time) {
       if (!this.isMounted()) {
         return;

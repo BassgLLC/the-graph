@@ -94,6 +94,9 @@
     displayName: "TheGraphGraph",
     mixins: [TheGraph.mixins.FakeMouse],
     getInitialState: function() {
+      // Always make it new Object.
+      this.portInfo = {};
+
       return {
         graph: this.props.graph,
         displaySelectionGroup: true,
@@ -397,9 +400,6 @@
         this.libraryDirty = true;
       }
       window.requestAnimationFrame(this.triggerRender);
-    },
-    registerComponent: function(def) {
-      this.props.library[def['name']] = def;
     },
     triggerRender: function (time) {
       if (!this.isMounted()) {

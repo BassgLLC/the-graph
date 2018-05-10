@@ -445,6 +445,7 @@
       },
       setLibrary: function (value) {
         this.$.graph.library = value;
+        this.$.graph.debounceLibraryRefesh();
       },
       copySelected: function() {
         var itemIds = this.selectedNodes.map(function (item) { return item.id});
@@ -481,9 +482,12 @@
         // outdated. But it's ok since [this.graph] is used in
         // [graphChanged] only and nobody read it outside.
 
-        //fixme why duplicating? we should reuse graphChange method.
-        //We did it that way to avoid recalling buildInitialLibrary method
+        // fixme why duplicating? we should reuse graphChange method.
+        // We did it that way to avoid recalling buildInitialLibrary method
         noflo.graph.loadJSON(graph, function(nofloGraph) {
+          // fixme here we don't update nofloGraph property. So, do we need?
+          // May be it's updates by 2-way binding with {{the-graph.graph}}?
+          // todo how to check it?
           this.$.graph.updateGraph(nofloGraph);
         }.bind(this));
       }

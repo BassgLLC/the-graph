@@ -8485,7 +8485,7 @@ module.exports = function(arr, obj){
 
     Graph.prototype.removeExport = function(publicPort) {
       var exported, found, idx, _i, _len, _ref;
-      publicPort = publicPort.toLowerCase();
+      publicPort = publicPort;
       found = null;
       _ref = this.exports;
       for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
@@ -8519,7 +8519,7 @@ module.exports = function(arr, obj){
 
     Graph.prototype.removeInport = function(publicPort) {
       var port;
-      publicPort = publicPort.toLowerCase();
+      publicPort = publicPort;
       if (!this.inports[publicPort]) {
         return;
       }
@@ -8580,7 +8580,7 @@ module.exports = function(arr, obj){
 
     Graph.prototype.removeOutport = function(publicPort) {
       var port;
-      publicPort = publicPort.toLowerCase();
+      publicPort = publicPort;
       if (!this.outports[publicPort]) {
         return;
       }
@@ -9394,17 +9394,17 @@ module.exports = function(arr, obj){
       metadata = conn.metadata ? conn.metadata : {};
       if (conn.data !== void 0) {
         if (typeof conn.tgt.index === 'number') {
-          graph.addInitialIndex(conn.data, conn.tgt.process, conn.tgt.port.toLowerCase(), conn.tgt.index, metadata);
+          graph.addInitialIndex(conn.data, conn.tgt.process, conn.tgt.port, conn.tgt.index, metadata);
         } else {
-          graph.addInitial(conn.data, conn.tgt.process, conn.tgt.port.toLowerCase(), metadata);
+          graph.addInitial(conn.data, conn.tgt.process, conn.tgt.port, metadata);
         }
         continue;
       }
       if (typeof conn.src.index === 'number' || typeof conn.tgt.index === 'number') {
-        graph.addEdgeIndex(conn.src.process, conn.src.port.toLowerCase(), conn.src.index, conn.tgt.process, conn.tgt.port.toLowerCase(), conn.tgt.index, metadata);
+        graph.addEdgeIndex(conn.src.process, conn.src.port, conn.src.index, conn.tgt.process, conn.tgt.port, conn.tgt.index, metadata);
         continue;
       }
-      graph.addEdge(conn.src.process, conn.src.port.toLowerCase(), conn.tgt.process, conn.tgt.port.toLowerCase(), metadata);
+      graph.addEdge(conn.src.process, conn.src.port, conn.tgt.process, conn.tgt.port, metadata);
     }
     if (definition.exports && definition.exports.length) {
       _ref3 = definition.exports;
@@ -21420,7 +21420,7 @@ module.exports = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, portname) {return portname.join("").toLowerCase()})(pos0, result0[0]);
+          result0 = (function(offset, portname) {return portname.join("")})(pos0, result0[0]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -21532,7 +21532,7 @@ module.exports = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, portname, portindex) {return { port: portname.join("").toLowerCase(), index: parseInt(portindex.join('')) }})(pos0, result0[0], result0[2]);
+          result0 = (function(offset, portname, portindex) {return { port: portname.join(""), index: parseInt(portindex.join('')) }})(pos0, result0[0], result0[2]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -21776,19 +21776,19 @@ module.exports = (function(){
           if (!parser.exports) {
             parser.exports = [];
           }
-          parser.exports.push({private:priv.toLowerCase(), public:pub.toLowerCase()})
+          parser.exports.push({private:priv, public:pub})
         }
         parser.registerInports = function (node, port, pub) {
           if (!parser.inports) {
             parser.inports = {};
           }
-          parser.inports[pub.toLowerCase()] = {process:node, port:port.toLowerCase()}
+          parser.inports[pub] = {process:node, port:port}
         }
         parser.registerOutports = function (node, port, pub) {
           if (!parser.outports) {
             parser.outports = {};
           }
-          parser.outports[pub.toLowerCase()] = {process:node, port:port.toLowerCase()}
+          parser.outports[pub] = {process:node, port:port}
         }
       
         parser.registerEdges = function (edges) {

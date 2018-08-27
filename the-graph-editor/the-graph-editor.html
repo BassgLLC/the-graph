@@ -476,6 +476,18 @@
       setNoteText: function(id, text) {
         this.nofloGraph.setNoteText(id, text);
       },
+      addConnections: function(connections) {
+        if (connections.length == 0) return;
+
+        for (var i=0, len=connections.length; i<len; i++) {
+          var con = connections[i];
+          if (con.hasOwnProperty('src')) {
+            this.nofloGraph.addEdge(con.src.process, con.src.port, con.tgt.process, con.tgt.port);
+          } else {
+            // todo initials
+          }
+        }
+      },
       updateGraph: function(graph) {
         // We don't update this.graph with new value to avoid
         // [graphChanged] handler. Be aware [this.graph] is becoming

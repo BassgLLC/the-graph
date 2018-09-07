@@ -458,14 +458,22 @@
         this.selectedEdges = [];
       },
       deleteSelected: function() {
-        if (this.selectedNodes.length == 0) return;
+        if (this.selectedNodes.length > 0) {
+          for (var i=0, len=this.selectedNodes.length; i<len; i++){
+            this.nofloGraph.removeNode(this.selectedNodes[i].id);
+          }
 
-        // Remove selection
-        for (var i=0, len=this.selectedNodes.length; i<len; i++){
-          this.nofloGraph.removeNode(this.selectedNodes[i].id);
+          this.selectedNodes = [];
         }
 
-        this.selectedNodes = [];
+        if (this.selectedEdges.length > 0) {
+          for (i=0, len=this.selectedEdges.length; i<len; i++) {
+            var edge = this.selectedEdges[i];
+            this.nofloGraph.removeEdge(edge.from.node, edge.from.port, edge.to.node, edge.to.port);
+          }
+
+          this.selectedEdges = [];
+        }
       },
       deleteNode: function(id) {
         this.nofloGraph.removeNode(id);

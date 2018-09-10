@@ -496,6 +496,17 @@
           }
         }
       },
+      setSelectedEdges: function (edges) {
+        var originalEdges = [];
+
+        for (var i=0, len=edges.length; i<len; i++) {
+          var proxy = edges[i];
+          var orig = this.nofloGraph.getEdge(proxy.from.node, proxy.from.port, proxy.to.node, proxy.to.port);
+          if (orig != null) originalEdges.push(orig);
+        }
+
+        this.selectedEdges = originalEdges;
+      },
       updateGraph: function(graph) {
         // We don't update this.graph with new value to avoid
         // [graphChanged] handler. Be aware [this.graph] is becoming

@@ -377,6 +377,8 @@
       this.bgContext = unwrap(this.bgCanvas.getContext('2d'));
       this.componentDidUpdate();
 
+      var event = new Event('the-graph-mounted');
+      domNode.dispatchEvent(event);
 
       // Rerender graph once to fix edges
       setTimeout(function () {

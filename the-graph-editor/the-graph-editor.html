@@ -456,6 +456,7 @@
         var pasted = TheGraph.Clipboard.paste(this.nofloGraph);
         this.selectedNodes = pasted.nodes;
         this.selectedEdges = [];
+        this.copySelected();
       },
       deleteSelected: function() {
         if (this.selectedNodes.length > 0) {

@@ -9063,9 +9063,9 @@ module.exports = function(arr, obj){
       return this.checkTransactionEnd();
     };
 
-    Graph.prototype.addInitial = function(data, node, port, metadata) {
+    Graph.prototype.addInitial = function(data, nodeId, port, metadata) {
       var initializer;
-      if (!this.getNode(node)) {
+      if (!this.getNode(nodeId)) {
         return;
       }
       this.checkTransactionStart();
@@ -9074,7 +9074,7 @@ module.exports = function(arr, obj){
           data: data
         },
         to: {
-          node: node,
+          node: nodeId,
           port: port
         },
         metadata: metadata

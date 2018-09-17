@@ -508,11 +508,13 @@
 
         this.selectedEdges = originalEdges;
       },
-      updateGraph: function(graph) {
+      updateGraphSilently: function(graph) {
         // We don't update this.graph with new value to avoid
         // [graphChanged] handler. Be aware [this.graph] is becoming
         // outdated. But it's ok since [this.graph] is used in
         // [graphChanged] only and nobody read it outside.
+        //
+        // Also it is make graph cancel autofit.
 
         // fixme why duplicating? we should reuse graphChange method.
         // We did it that way to avoid recalling buildInitialLibrary method
@@ -521,6 +523,18 @@
           // May be it's updates by 2-way binding with {{the-graph.graph}}?
           // todo how to check it?
           this.$.graph.updateGraph(nofloGraph);
+        }.bind(this));
+      },
+      updateGraph: function(graph) {
+        // Updates graph and cause on-graph event.
+        //
+        // Doesn't updates [this.graph], but it's not cause errors.
+        // It's used in graphChanged  event handler, not bindings,
+        // no anything.
+
+        noflo.graph.loadJSON(graph, function(nofloGraph) {
+          this.$.graph.updateGraph(nofloGraph);
+          this.$.graph.fireChanged(null);
         }.bind(this));
       }
     });

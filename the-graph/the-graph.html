@@ -216,6 +216,7 @@
         this.graphView.setAnimatedEdges(this.animatedEdges);
       },
       fireChanged: function (event) {
+        console.log('the-graph.fireChanged');
         this.fire("changed", this);
       },
       autolayoutChanged: function () {

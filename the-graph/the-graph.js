@@ -234,6 +234,21 @@
       maxY: node.metadata.y + TheGraph.config.nodeSize * 2
     };
 
+    return calculateFit(limits, width, height);
+  };
+
+  TheGraph.findCustomFit = function (minMax, width, height) {
+    var limits = {
+      minX: minMax.minX - TheGraph.config.nodeSize,
+      minY: minMax.minY - TheGraph.config.nodeSize,
+      maxX: minMax.maxX + TheGraph.config.nodeSize,
+      maxY: minMax.maxY + TheGraph.config.nodeSize
+    };
+
+    return calculateFit(limits, width, height);
+  };
+
+  var calculateFit = function(limits, width, height) {
     var gWidth = limits.maxX - limits.minX;
     var gHeight = limits.maxY - limits.minY;
 

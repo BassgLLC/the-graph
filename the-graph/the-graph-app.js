@@ -304,6 +304,37 @@
         }, duration * (scale_ratio_2 / scale_ratio_diff), 'out-quint');
       }.bind(this));
     },
+    focusNodes: function (ids) {
+      var duration = TheGraph.config.focusAnimationDuration;
+      var nodesArea = TheGraph.findMinMax(this.props.graph, ids);
+      var fit = TheGraph.findCustomFit(nodesArea, this.state.width, this.state.height);
+      var start_point = {
+        x: -(this.state.x - this.state.width / 2) / this.state.scale,
+        y: -(this.state.y - this.state.height / 2) / this.state.scale
+      }, end_point = {
+        x: (nodesArea.maxX + nodesArea.minX) / 2,
+        y: (nodesArea.maxY + nodesArea.minY) / 2
+      };
+
+      /// all bellow is copy from previous method focusNode
+      var graphfit = TheGraph.findAreaFit(start_point, end_point, this.state.width, this.state.height);
+      var scale_ratio_1 = Math.abs(graphfit.scale - this.state.scale);
+      var scale_ratio_2 = Math.abs(fit.scale - graphfit.scale);
+      var scale_ratio_diff = scale_ratio_1 + scale_ratio_2;
+
+      // Animate zoom-out then zoom-in
+      this.animate({
+        x: graphfit.x,
+        y: graphfit.y,
+        scale: graphfit.scale,
+      }, duration * (scale_ratio_1 / scale_ratio_diff), 'in-quint', function() {
+        this.animate({
+          x: fit.x,
+          y: fit.y,
+          scale: fit.scale,
+        }, duration * (scale_ratio_2 / scale_ratio_diff), 'out-quint');
+      }.bind(this));
+    },
     edgeStart: function (event) {
       // Listened from PortMenu.edgeStart() and Port.edgeStart()
       this.refs.graph.edgeStart(event);

@@ -536,6 +536,24 @@
           this.$.graph.updateGraph(nofloGraph);
           this.$.graph.fireChanged(null);
         }.bind(this));
+      },
+      selectNodes: function(ids) {
+        var newSelected = [];
+        for (var i=0, len=ids.length; i<len; i++) {
+          var node;
+          if (this.nofloGraph == null) {
+            console.log(this.graph);
+            node = this.graph.processes[ids[i]];
+          } else {
+            node = this.nofloGraph.getNode(ids[i]);
+          }
+          newSelected.push(node);
+        }
+        this.selectedNodes = newSelected;
+      },
+      focusNodes: function(ids) {
+        // todo need implement calculating areas and animations for few nodes.
+        // There is way to calculate that for one focus.
       }
     });
 

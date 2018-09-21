@@ -7,7 +7,7 @@
   var TheGraph = context.TheGraph;
 
   TheGraph.Clipboard = {};
-  var clipboardContent = {nodes:[], edges:[], initializers:[]};
+  var clipboardContent = {nodes:[], edges:[], initializers:[], pasted: -1};
 
   var cloneObject = function (obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -28,7 +28,7 @@
     //Duplicate all the nodes before putting them in clipboard
     //this will make this work also with cut/Paste and once we
     //decide if/how we will implement cross-document copy&paste will work there too
-    clipboardContent = {nodes:[], edges:[], initializers:[]};
+    clipboardContent = {nodes:[], edges:[], initializers:[], pasted: -1};
     var map = {};
     var i, len;
     for (i = 0, len = nodeIds.length; i < len; i++) {
@@ -97,10 +97,12 @@
       }
       pasted.initializers.push(newInitial);
     }
+    clipboardContent.pasted++;
     return pasted;
   };
 
   TheGraph.Clipboard.getClipboardContent = function () {
+    clipboardContent.pasted++;
     return clipboardContent;
   };
 

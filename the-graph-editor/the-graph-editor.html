@@ -451,13 +451,6 @@
         var itemIds = this.selectedNodes.map(function (item) { return item.id});
         TheGraph.Clipboard.copy(this.nofloGraph, itemIds);
       },
-      pasteSelected: function() {
-        if (TheGraph.Clipboard.isEmpty()) return;
-        var pasted = TheGraph.Clipboard.paste(this.nofloGraph);
-        this.selectedNodes = pasted.nodes;
-        this.selectedEdges = [];
-        this.copySelected();
-      },
       deleteSelected: function() {
         if (this.selectedNodes.length > 0) {
           for (var i=0, len=this.selectedNodes.length; i<len; i++){

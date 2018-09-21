@@ -100,4 +100,8 @@
     return pasted;
   };
 
+  TheGraph.Clipboard.getClipboardContent = function () {
+    return clipboardContent;
+  };
+
 })(this);
